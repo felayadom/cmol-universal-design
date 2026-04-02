@@ -622,6 +622,8 @@
 
   .mobile-menu-btn{
     display:block;
+    top:calc(env(safe-area-inset-top, 0px) + 10px);
+    left:14px;
   }
 
   .sidebar{
@@ -631,6 +633,7 @@
     width:300px;
     max-width:85vw;
     height:100vh;
+    padding:18px 16px;
     border-right:1px solid var(--line);
     border-bottom:none;
     background:rgba(255,255,255,.96);
@@ -645,20 +648,18 @@
   }
 
   .content{
-    padding-top:88px;
+    padding:88px 16px 16px 16px;
   }
 
   .hero,.definition-grid,.exhibit-panel{grid-template-columns:1fr}
   .grid-3,.themes,.impact,.process{grid-template-columns:1fr 1fr}
 }
 
-    @media (max-width: 760px){
-      .content{padding:16px}
-      .sidebar{padding:18px 16px}
-      .hero-main,.hero-side,.section{padding:22px}
-      .grid-3,.themes,.impact,.process,.rating-grid{grid-template-columns:1fr}
-      h2{font-size:2.2rem}
-    }
+@media (max-width: 760px){
+  .hero-main,.hero-side,.section{padding:22px}
+  .grid-3,.themes,.impact,.process,.rating-grid{grid-template-columns:1fr}
+  h2{font-size:2.2rem}
+}
   </style>
 </head>
 <body>
@@ -951,7 +952,7 @@
             <div class="box"><h4>Add visual entry points</h4><p>Use universal symbols, simple pictures, or one example setup to show children how they might begin interacting with an exhibit.</p></div>
             <div class="box"><h4>Rethink material placement</h4><p>Move frequently used materials into more visible and reachable locations, and consider using open or angled storage instead of low closed bins when possible.</p></div>
             <div class="box"><h4>Reduce text-only instructions</h4><p>Pair written directions with icons, photos, color-coding, or visual prompts so more visitors can understand how to engage.</p></div>
-            <div class="box"><h4>Watch for caregiver reliance</h4><p>If children consistently need adults to reach, carry, or explain materials, that may point to a barrier in the environment rather than the child.This can help distinguish between a child needing support and an environment that could be adjusted.</p></div>
+            <div class="box"><h4>Watch for caregiver reliance</h4><p>If children consistently need adults to reach, carry, or explain materials, that may point to a barrier in the environment rather than the child. This can help distinguish between a child needing support and an environment that could be adjusted.</p></div>
             <div class="box"><h4>Notice congestion and access</h4><p>Pay attention to where exhibits become crowded, blocked, or harder to approach during busy periods, and adjust layout or materials when realistic.</p></div>
           </div>
         </section>
@@ -972,7 +973,7 @@
 
             <div class="acc-item">
               <button class="acc-btn">
-                <div><strong>Low-resource change:: improve visibility and placement of materials</strong><span>Look at where components are stored, how visible they are, and whether they can be reached from different positions.</span></div>
+                <div><strong>Low-resource change: improve visibility and placement of materials</strong><span>Look at where components are stored, how visible they are, and whether they can be reached from different positions.</span></div>
                 <div class="plus">+</div>
               </button>
               <div class="acc-body">
@@ -982,7 +983,7 @@
 
             <div class="acc-item">
               <button class="acc-btn">
-                <div><strong>Low-resource change:: reduce reliance on text-only communication</strong><span>Support understanding through more than one channel.</span></div>
+                <div><strong>Low-resource change: reduce reliance on text-only communication</strong><span>Support understanding through more than one channel.</span></div>
                 <div class="plus">+</div>
               </button>
               <div class="acc-body">
@@ -1041,102 +1042,88 @@
   </div>
 
   <script>
-    const navLinks = document.querySelectorAll('.nav a');
-    navLinks.forEach(link => {
-  link.addEventListener('click', () => {
-    sidebar.classList.remove('open');
-  });
-});
-    const sections = [...navLinks].map(a => document.querySelector(a.getAttribute('href')));
+  const navLinks = document.querySelectorAll('.nav a');
+  const sections = [...navLinks].map(a => document.querySelector(a.getAttribute('href')));
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          navLinks.forEach(link => {
-            link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
-          });
-        }
-      });
-    }, {rootMargin: '-30% 0px -55% 0px', threshold: 0.1});
-
-    sections.forEach(section => section && observer.observe(section));
-
-    document.querySelectorAll('.toggle').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.toggle').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.exhibit-panel').forEach(p => p.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById(btn.dataset.target).classList.add('active');
-      });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+        });
+      }
     });
+  }, { rootMargin: '-30% 0px -55% 0px', threshold: 0.1 });
 
-    document.querySelectorAll('.acc-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const item = btn.closest('.acc-item');
-        item.classList.toggle('open');
-      });
+  sections.forEach(section => section && observer.observe(section));
+
+  document.querySelectorAll('.toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.toggle').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.exhibit-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.target).classList.add('active');
     });
-
-    const modal = document.getElementById('themeModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalText = document.getElementById('modalText');
-
-    document.querySelectorAll('.theme').forEach(theme => {
-      theme.addEventListener('click', () => {
-        modalTitle.textContent = theme.dataset.title;
-        modalText.textContent = theme.dataset.text;
-        modal.classList.add('open');
-        modal.setAttribute('aria-hidden', 'false');
-      });
-    });
-
-    document.querySelector('.modal-close').addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-      if(e.target === modal) closeModal();
-    });
-    document.addEventListener('keydown', (e) => {
-      if(e.key === 'Escape') closeModal();
-    });
-
-    function closeModal(){
-      modal.classList.remove('open');
-      modal.setAttribute('aria-hidden', 'true');
-    }
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-const sidebar = document.querySelector('.sidebar');
-    const overlay = document.getElementById('overlay');
-
-mobileMenuBtn.addEventListener('click', () => {
-  sidebar.classList.toggle('open');
-  overlay.classList.toggle('show');
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  const mobileMenuButton = document.getElementById('mobileMenuBtn');
-  const mobileSidebar = document.querySelector('.sidebar');
-  const mobileOverlay = document.getElementById('overlay');
-  const mobileNavLinks = document.querySelectorAll('.nav a');
-
-  if (!mobileMenuButton || !mobileSidebar || !mobileOverlay) return;
-
-  mobileMenuButton.addEventListener('click', () => {
-    mobileSidebar.classList.toggle('open');
-    mobileOverlay.classList.toggle('show');
   });
 
-  mobileOverlay.addEventListener('click', () => {
-    mobileSidebar.classList.remove('open');
-    mobileOverlay.classList.remove('show');
+  document.querySelectorAll('.acc-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.acc-item');
+      item.classList.toggle('open');
+    });
   });
 
-  mobileNavLinks.forEach(link => {
-    link.addEventListener('click', () => {
+  const modal = document.getElementById('themeModal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalText = document.getElementById('modalText');
+
+  document.querySelectorAll('.theme').forEach(theme => {
+    theme.addEventListener('click', () => {
+      modalTitle.textContent = theme.dataset.title;
+      modalText.textContent = theme.dataset.text;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+    });
+  });
+
+  document.querySelector('.modal-close').addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  function closeModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const mobileMenuButton = document.getElementById('mobileMenuBtn');
+    const mobileSidebar = document.querySelector('.sidebar');
+    const mobileOverlay = document.getElementById('overlay');
+    const mobileNavLinks = document.querySelectorAll('.nav a');
+
+    if (!mobileMenuButton || !mobileSidebar || !mobileOverlay) return;
+
+    mobileMenuButton.addEventListener('click', () => {
+      mobileSidebar.classList.toggle('open');
+      mobileOverlay.classList.toggle('show');
+    });
+
+    mobileOverlay.addEventListener('click', () => {
       mobileSidebar.classList.remove('open');
       mobileOverlay.classList.remove('show');
     });
+
+    mobileNavLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileSidebar.classList.remove('open');
+        mobileOverlay.classList.remove('show');
+      });
+    });
   });
-});
-    
   </script>
 </body>
 </html>
