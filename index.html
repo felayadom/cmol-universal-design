@@ -113,7 +113,7 @@
     .mobile-menu-btn{
   display:none;
   position:fixed;
-  top:14px;
+  top:78px;
   left:14px;
   z-index:30;
   border:none;
@@ -645,7 +645,7 @@
   }
 
   .content{
-    padding-top:70px;
+    padding-top:88px;
   }
 
   .hero,.definition-grid,.exhibit-panel{grid-template-columns:1fr}
@@ -1113,7 +1113,7 @@ mobileMenuBtn.addEventListener('click', () => {
 
 const navLinks = document.querySelectorAll('.nav a');
 
-navLinks.forEach(link => {
+MobilenavLinks.forEach(link => {
   link.addEventListener('click', () => {
     sidebar.classList.remove('open');
     overlay.classList.remove('show');
