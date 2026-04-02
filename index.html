@@ -1,0 +1,1042 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Universal Design at CMOL</title>
+  <style>
+    :root{
+      --bg:#edf2fb;
+      --panel:#ffffff;
+      --panel-2:#f7f9fe;
+      --ink:#1f3152;
+      --muted:#5d6d8b;
+      --line:#d9e2f2;
+      --blue:#5d87d8;
+      --blue-dark:#3f69bb;
+      --blue-soft:#dfe9ff;
+      --accent:#8baeff;
+      --shadow:0 14px 34px rgba(41,71,120,.10);
+      --radius:22px;
+      --radius-sm:14px;
+      --max:1220px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at top right, #dfe8ff 0, transparent 28%),
+        linear-gradient(180deg, #eef3ff 0%, #edf2fb 100%);
+    }
+
+    .shell{
+      display:grid;
+      grid-template-columns: 290px 1fr;
+      min-height:100vh;
+    }
+
+    .sidebar{
+      position:sticky;
+      top:0;
+      height:100vh;
+      padding:28px 20px;
+      border-right:1px solid rgba(217,226,242,.9);
+      background:rgba(255,255,255,.55);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand{
+      background:linear-gradient(135deg, var(--blue-dark), var(--blue));
+      color:white;
+      border-radius:24px;
+      padding:22px 18px;
+      box-shadow: var(--shadow);
+      margin-bottom:20px;
+    }
+
+    .brand h1{
+      margin:0 0 8px;
+      font-size:1.45rem;
+      line-height:1.05;
+      letter-spacing:-.03em;
+    }
+
+    .brand p{
+      margin:0;
+      color:rgba(255,255,255,.88);
+      font-size:.95rem;
+      line-height:1.4;
+    }
+
+    .nav{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-top:18px;
+    }
+
+    .nav a{
+      text-decoration:none;
+      color:var(--ink);
+      padding:12px 14px;
+      border-radius:14px;
+      font-weight:600;
+      font-size:.97rem;
+      transition:.2s ease;
+      border:1px solid transparent;
+    }
+
+    .nav a:hover,
+    .nav a.active{
+      background:var(--panel);
+      border-color:var(--line);
+      box-shadow:0 8px 22px rgba(52,84,143,.08);
+      color:var(--blue-dark);
+    }
+
+    .sidebar-note{
+      margin-top:18px;
+      padding:16px;
+      border-radius:18px;
+      background:var(--panel);
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-size:.9rem;
+      line-height:1.45;
+    }
+
+    .content{
+      padding:28px;
+    }
+
+    .container{
+      max-width:var(--max);
+      margin:0 auto;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:20px;
+      align-items:stretch;
+      margin-bottom:20px;
+    }
+
+    .card{
+      background:rgba(255,255,255,.82);
+      border:1px solid rgba(217,226,242,.95);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    .hero-main{
+      padding:34px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size:.85rem;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--blue-dark);
+      font-weight:800;
+      margin-bottom:16px;
+    }
+
+    .eyebrow::before{
+      content:"";
+      width:9px;height:9px;border-radius:50%;
+      background:var(--blue);
+      box-shadow:0 0 0 5px rgba(93,135,216,.14);
+    }
+
+    h2{
+      margin:0 0 10px;
+      font-size:clamp(2rem, 4vw, 3.6rem);
+      line-height:1;
+      letter-spacing:-.05em;
+    }
+
+    .hero p{
+      color:var(--muted);
+      line-height:1.65;
+      font-size:1.03rem;
+      max-width:66ch;
+    }
+
+    .hero-badge{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:20px;
+    }
+
+    .pill{
+      background:var(--panel-2);
+      border:1px solid var(--line);
+      color:var(--blue-dark);
+      border-radius:999px;
+      padding:10px 14px;
+      font-weight:700;
+      font-size:.92rem;
+    }
+
+    .hero-side{
+      padding:24px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap:14px;
+      background:linear-gradient(180deg, rgba(235,241,255,.95), rgba(255,255,255,.9));
+    }
+
+    .mini-stat{
+      padding:16px;
+      border-radius:18px;
+      background:var(--panel);
+      border:1px solid var(--line);
+    }
+
+    .mini-stat .num{
+      font-size:2rem;
+      font-weight:800;
+      color:var(--blue-dark);
+      line-height:1;
+      margin-bottom:8px;
+    }
+
+    .mini-stat .label{
+      font-weight:700;
+      margin-bottom:6px;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:18px;
+      margin:18px 0 28px;
+    }
+
+    .section{
+      margin:0 0 24px;
+      padding:28px;
+    }
+
+    .section h3{
+      margin:0 0 10px;
+      font-size:1.8rem;
+      line-height:1.05;
+      letter-spacing:-.03em;
+    }
+
+    .section > p.lead{
+      color:var(--muted);
+      margin:0 0 22px;
+      line-height:1.6;
+      max-width:72ch;
+    }
+
+    .definition-grid{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:20px;
+      align-items:start;
+    }
+
+    .checklist{
+      display:grid;
+      gap:12px;
+      margin-top:12px;
+    }
+
+    .check{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      padding:14px 16px;
+      border-radius:16px;
+      background:var(--panel-2);
+      border:1px solid var(--line);
+    }
+
+    .check i{
+      flex:0 0 24px;
+      width:24px;height:24px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      font-style:normal;
+      font-weight:900;
+      color:white;
+      background:linear-gradient(135deg, var(--blue-dark), var(--blue));
+      margin-top:1px;
+    }
+
+    .process{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+    }
+
+    .process-step{
+      padding:20px;
+      border-radius:18px;
+      background:var(--panel-2);
+      border:1px solid var(--line);
+      position:relative;
+    }
+
+    .process-step .step{
+      font-size:.85rem;
+      font-weight:800;
+      color:var(--blue-dark);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin-bottom:10px;
+    }
+
+    .process-step h4{
+      margin:0 0 10px;
+      font-size:1.05rem;
+    }
+
+    .process-step p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.55;
+      font-size:.96rem;
+    }
+
+    .toggle-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+
+    .toggle{
+      border:none;
+      cursor:pointer;
+      padding:10px 14px;
+      border-radius:999px;
+      background:var(--panel-2);
+      border:1px solid var(--line);
+      color:var(--ink);
+      font-weight:700;
+      transition:.2s ease;
+    }
+
+    .toggle.active{
+      background:linear-gradient(135deg, var(--blue-dark), var(--blue));
+      color:#fff;
+      border-color:transparent;
+      box-shadow:0 10px 24px rgba(63,105,187,.24);
+    }
+
+    .exhibit-panel{
+      display:none;
+      grid-template-columns:1fr .95fr;
+      gap:18px;
+      align-items:start;
+      margin-top:8px;
+    }
+
+    .exhibit-panel.active{display:grid}
+
+    .subcard{
+      padding:22px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      background:var(--panel-2);
+    }
+
+    .subcard h4{
+      margin:0 0 14px;
+      font-size:1.15rem;
+    }
+
+    .list{
+      display:grid;
+      gap:10px;
+      padding:0;
+      margin:0;
+      list-style:none;
+    }
+
+    .list li{
+      padding:12px 14px;
+      border-radius:14px;
+      background:var(--panel);
+      border:1px solid var(--line);
+      line-height:1.5;
+      color:var(--muted);
+    }
+
+    .list strong{color:var(--ink)}
+
+    .rating-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+    }
+
+    .rating{
+      padding:14px;
+      border-radius:16px;
+      border:1px solid var(--line);
+      background:var(--panel);
+    }
+
+    .rating small{
+      display:block;
+      color:var(--muted);
+      margin-bottom:6px;
+      font-weight:600;
+    }
+
+    .badge{
+      display:inline-block;
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:.82rem;
+      font-weight:800;
+    }
+
+    .strong{background:#e7f6ec;color:#237a47}
+    .moderate{background:#fff6df;color:#9a6b00}
+    .low{background:#ffe7e5;color:#b24434}
+
+    .themes{
+      display:grid;
+      grid-template-columns:repeat(4, 1fr);
+      gap:14px;
+    }
+
+    .theme{
+      padding:20px;
+      border-radius:18px;
+      background:var(--panel-2);
+      border:1px solid var(--line);
+      cursor:pointer;
+      transition:.18s ease;
+    }
+
+    .theme:hover{
+      transform:translateY(-2px);
+      box-shadow:0 12px 24px rgba(55,85,142,.08);
+    }
+
+    .theme .k{
+      color:var(--blue-dark);
+      font-weight:800;
+      font-size:.82rem;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+
+    .theme h4{
+      margin:8px 0 8px;
+      font-size:1.05rem;
+    }
+
+    .theme p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.55;
+      font-size:.94rem;
+    }
+
+    .accordion{
+      display:grid;
+      gap:12px;
+    }
+
+    .acc-item{
+      border:1px solid var(--line);
+      border-radius:18px;
+      overflow:hidden;
+      background:var(--panel);
+    }
+
+    .acc-btn{
+      width:100%;
+      background:none;
+      border:none;
+      padding:18px 20px;
+      text-align:left;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      cursor:pointer;
+      font:inherit;
+      color:var(--ink);
+      font-weight:800;
+    }
+
+    .acc-btn span{
+      color:var(--muted);
+      font-weight:600;
+      font-size:.94rem;
+      display:block;
+      margin-top:4px;
+    }
+
+    .acc-body{
+      display:none;
+      padding:0 20px 20px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+
+    .acc-item.open .acc-body{display:block}
+    .acc-item.open .plus{transform:rotate(45deg)}
+    .plus{
+      font-size:1.45rem;
+      color:var(--blue-dark);
+      transition:.2s ease;
+      line-height:1;
+    }
+
+    .impact{
+      display:grid;
+      grid-template-columns:repeat(5, 1fr);
+      gap:14px;
+    }
+
+    .impact .box{
+      padding:18px;
+      border-radius:18px;
+      background:var(--panel-2);
+      border:1px solid var(--line);
+    }
+
+    .impact .box h4{
+      margin:0 0 10px;
+      font-size:1rem;
+    }
+
+    .impact .box p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.55;
+      font-size:.93rem;
+    }
+
+    .footer{
+      text-align:center;
+      color:var(--muted);
+      padding:28px 10px 50px;
+      font-size:.95rem;
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(14,24,43,.45);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index:20;
+      backdrop-filter:blur(6px);
+    }
+
+    .modal.open{display:flex}
+
+    .modal-box{
+      width:min(760px, 100%);
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:26px;
+      box-shadow:0 24px 60px rgba(14,24,43,.2);
+      padding:26px;
+      position:relative;
+    }
+
+    .modal-close{
+      position:absolute;
+      top:14px;
+      right:14px;
+      width:38px;height:38px;
+      border-radius:50%;
+      border:none;
+      cursor:pointer;
+      background:var(--panel-2);
+      border:1px solid var(--line);
+      font-size:1.1rem;
+    }
+
+    .modal-box h4{
+      margin:0 0 10px;
+      font-size:1.55rem;
+    }
+
+    .modal-box p{
+      color:var(--muted);
+      line-height:1.65;
+      margin:0 0 10px;
+    }
+
+    @media (max-width: 1100px){
+      .shell{grid-template-columns:1fr}
+      .sidebar{
+        position:relative;
+        height:auto;
+        border-right:none;
+        border-bottom:1px solid var(--line);
+      }
+      .hero,.definition-grid,.exhibit-panel{grid-template-columns:1fr}
+      .grid-3,.themes,.impact,.process{grid-template-columns:1fr 1fr}
+    }
+
+    @media (max-width: 760px){
+      .content{padding:16px}
+      .sidebar{padding:18px 16px}
+      .hero-main,.hero-side,.section{padding:22px}
+      .grid-3,.themes,.impact,.process,.rating-grid{grid-template-columns:1fr}
+      h2{font-size:2.2rem}
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>Universal Design<br>at CMOL</h1>
+        <p>Dashboard for museum leaders and staff</p>
+      </div>
+
+      <nav class="nav">
+        <a href="#overview" class="active">Overview</a>
+        <a href="#ud">What is UD?</a>
+        <a href="#methods">How this was done</a>
+        <a href="#selection">Exhibit selection</a>
+        <a href="#tool">The review tool</a>
+        <a href="#findings">Findings</a>
+        <a href="#themes">Themes</a>
+        <a href="#staff-actions">Staff actions</a>
+        <a href="#recommendations">Recommendations</a>
+        <a href="#impact">Why this matters</a>
+      </nav>
+
+      
+    </aside>
+
+    <main class="content">
+      <div class="container">
+        <section class="hero" id="overview">
+          <div class="hero-main card">
+            <div class="eyebrow">Universal Design</div>
+            <h2>Making exhibit decisions more intentional, usable, and inclusive</h2>
+            <p>
+              This presentation translates the universal design review into practical takeaways for Children’s Museum of Oak Lawn staff. It focuses on how exhibit environments support or limit participation, where barriers emerged, and what realistic actions can strengthen play opportunities for a broader range of visitors.
+            </p>
+            <div class="hero-badge">
+              <span class="pill">4 exhibits reviewed</span>
+              <span class="pill">7 universal design principles</span>
+              <span class="pill">Findings and recommendations</span>
+            </div>
+          </div>
+
+          <div class="hero-side card">
+            <div class="mini-stat">
+              <div class="num">01</div>
+              <div class="label">Why this matters</div>
+              <div class="text">Not all children enter, understand, or use exhibits in the same way.</div>
+            </div>
+            <div class="mini-stat">
+              <div class="num">02</div>
+              <div class="label">What this review shows</div>
+              <div class="text">Small design features can shape independence, engagement, and caregiver reliance.</div>
+            </div>
+            <div class="mini-stat">
+              <div class="num">03</div>
+              <div class="label">What staff can do</div>
+              <div class="text">Use the tool and findings to support more informed, practical exhibit decisions.</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="grid-3">
+          <div class="card section">
+            <h3>What staff should take away</h3>
+            <p class="lead">Universal design is not about becoming designers. It is about noticing how the environment helps children get into play or how it can unintentionally create extra work for them and their caregivers.</p>
+          </div>
+          <div class="card section">
+            <h3>Main pattern found</h3>
+            <p class="lead">Many spaces supported flexible play, but barriers still appeared in access, clarity of use, communication supports, and physical effort.</p>
+          </div>
+          <div class="card section">
+            <h3>Practical goal</h3>
+            <p class="lead">Preserve open-ended play while improving entry points, access, and usability for a wider range of visitors.</p>
+          </div>
+        </section>
+
+        <section class="card section" id="ud">
+          <h3>What is universal design?</h3>
+          <p class="lead">Universal design means creating spaces that can be used by as many people as possible without needing special adaptation.</p>
+          <div class="definition-grid">
+            <div>
+              <div class="checklist">
+                <div class="check"><i>✓</i><div><strong>Can children figure out how to begin?</strong><br>Entry into play should be understandable without relying only on adult explanation.</div></div>
+                <div class="check"><i>✓</i><div><strong>Can they reach and use materials?</strong><br>Physical access, storage, positioning, and effort all shape who can participate.</div></div>
+                <div class="check"><i>✓</i><div><strong>Are there multiple ways to engage?</strong><br>Flexible environments support different play styles, body sizes, ages, and abilities.</div></div>
+                <div class="check"><i>✓</i><div><strong>Does the space support independence as well as shared play?</strong><br>Caregiver involvement can be valuable, but barriers should not make it required.</div></div>
+              </div>
+            </div>
+            <div class="subcard">
+              <h4>What UD is not</h4>
+              <ul class="list">
+                <li><strong>Not just ADA compliance</strong><br>It goes beyond minimum accessibility requirements.</li>
+                <li><strong>Not removing challenge</strong><br>Children’s play can still be active, effortful, and exploratory.</li>
+                <li><strong>Not one “right” way to play</strong><br>UD supports optional entry points, not rigid rules.</li>
+                <li><strong>Not only for one group</strong><br>It benefits many users by making participation easier to understand and access.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="card section" id="methods">
+          <h3>How this project was done</h3>
+          <p class="lead">The review was developed to be meaningful for museum use: grounded in universal design principles, informed by needs assessment findings, and tested in the live museum environment.</p>
+          <div class="process">
+            <div class="process-step">
+              <div class="step">Step 1</div>
+              <h4>Needs assessment</h4>
+              <p>Visitor and staff input, along with observations, helped identify priority exhibits and recurring participation concerns.</p>
+            </div>
+            <div class="process-step">
+              <div class="step">Step 2</div>
+              <h4>Tool development</h4>
+              <p>A structured review tool was created using the seven universal design principles and museum/accessibility guidance.</p>
+            </div>
+            <div class="process-step">
+              <div class="step">Step 3</div>
+              <h4>Exhibit review</h4>
+              <p>The tool was used to observe selected exhibits during museum hours to identify strengths, barriers, and opportunities.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card section" id="selection">
+          <h3>Why these four exhibits?</h3>
+          <p class="lead">Exhibit selection was tied to needs assessment findings so the review would focus on spaces that were already meaningful to museum stakeholders.</p>
+          <div class="impact">
+            <div class="box"><h4>Build It</h4><p>Selected because it emerged as an exhibit that could use improvement and/or was underutilized.</p></div>
+            <div class="box"><h4>Gear Wall</h4><p>Also identified as an exhibit that could use improvement and/or was underutilized.</p></div>
+            <div class="box"><h4>Tree House</h4><p>Selected because it is a highly popular exhibit and important to children’s museum play.</p></div>
+            <div class="box"><h4>What If</h4><p>Selected based on structured staff interview input.</p></div>
+            <div class="box"><h4>Why this matters</h4><p>This combination allowed the review to include both high-use spaces and areas where staff saw room for change.</p></div>
+          </div>
+        </section>
+
+        <section class="card section" id="tool">
+          <h3>What the review tool looks for</h3>
+          <p class="lead">The tool is descriptive, not just a scorecard. It helps staff notice how exhibit design supports or limits participation.</p>
+          <div class="impact">
+            <div class="box"><h4>Equitable Use</h4><p>Can a range of children access the core play activity?</p></div>
+            <div class="box"><h4>Flexibility in Use</h4><p>Can children engage in more than one way?</p></div>
+            <div class="box"><h4>Simple & Intuitive Use</h4><p>Is it clear how to begin and continue play?</p></div>
+            <div class="box"><h4>Perceptible Information</h4><p>Is information communicated in more than one way?</p></div>
+            <div class="box"><h4>Tolerance for Error</h4><p>Can children safely try, experiment, and keep going?</p></div>
+            <div class="box"><h4>Low Physical Effort</h4><p>Are demands reasonable or adjustable?</p></div>
+            <div class="box"><h4>Size & Space</h4><p>Is there enough room to approach and use the exhibit?</p></div>
+          </div>
+        </section>
+
+        <section class="card section" id="findings">
+          <h3>Findings by exhibit</h3>
+          <p class="lead">Use the tabs below to explore concise summaries of each reviewed exhibit.</p>
+          <div class="toggle-row">
+            <button class="toggle active" data-target="buildit">Build It</button>
+            <button class="toggle" data-target="gearwall">Gear Wall</button>
+            <button class="toggle" data-target="treehouse">Tree House</button>
+            <button class="toggle" data-target="whatif">What If</button>
+          </div>
+
+          <div class="exhibit-panel active" id="buildit">
+            <div class="subcard">
+              <h4>Summary</h4>
+              <ul class="list">
+                <li><strong>Strength:</strong> Open-ended materials supported creativity, experimentation, and different ways of interacting.</li>
+                <li><strong>Barrier:</strong> Some materials were less visible or less reachable, especially in back cubbies.</li>
+                <li><strong>Barrier:</strong> Entry into play was not always obvious without caregiver or peer modeling.</li>
+                <li><strong>Why it matters:</strong> Flexible design is already a strength here, but physical positioning and visibility still affect who can fully participate.</li>
+              </ul>
+            </div>
+            <div class="subcard">
+              <h4>Ratings snapshot</h4>
+              <div class="rating-grid">
+                <div class="rating"><small>Equitable Use</small><span class="badge moderate">Moderate</span></div>
+                <div class="rating"><small>Flexibility in Use</small><span class="badge moderate">Moderate</span></div>
+                <div class="rating"><small>Simple & Intuitive Use</small><span class="badge low">Low</span></div>
+                <div class="rating"><small>Perceptible Information</small><span class="badge moderate">Moderate</span></div>
+                <div class="rating"><small>Tolerance for Error</small><span class="badge strong">Strong</span></div>
+                <div class="rating"><small>Low Physical Effort</small><span class="badge moderate">Moderate</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exhibit-panel" id="gearwall">
+            <div class="subcard">
+              <h4>Summary</h4>
+              <ul class="list">
+                <li><strong>Strength:</strong> The exhibit concept is engaging and supports trial-and-error learning.</li>
+                <li><strong>Barrier:</strong> Vertical layout, reach demands, and force needed to use components created participation barriers.</li>
+                <li><strong>Barrier:</strong> Children often relied on caregivers to access or manipulate parts.</li>
+                <li><strong>Why it matters:</strong> The exhibit has good engagement potential, but physical design plays a major role in who can use it independently.</li>
+              </ul>
+            </div>
+            <div class="subcard">
+              <h4>Ratings snapshot</h4>
+              <div class="rating-grid">
+                <div class="rating"><small>Equitable Use</small><span class="badge low">Low–Moderate</span></div>
+                <div class="rating"><small>Flexibility in Use</small><span class="badge moderate">Moderate</span></div>
+                <div class="rating"><small>Simple & Intuitive Use</small><span class="badge low">Low</span></div>
+                <div class="rating"><small>Perceptible Information</small><span class="badge moderate">Moderate</span></div>
+                <div class="rating"><small>Tolerance for Error</small><span class="badge strong">Strong</span></div>
+                <div class="rating"><small>Low Physical Effort</small><span class="badge low">Low</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exhibit-panel" id="treehouse">
+            <div class="subcard">
+              <h4>Summary</h4>
+              <ul class="list">
+                <li><strong>Strength:</strong> Children readily identified how to engage and the exhibit supported multiple forms of play.</li>
+                <li><strong>Strength:</strong> Open layout encouraged collaborative interaction and flexible use.</li>
+                <li><strong>Barrier:</strong> Physical demands were higher, especially for younger children or those with different mobility needs.</li>
+                <li><strong>Why it matters:</strong> This exhibit demonstrates strong intuitive engagement, while still showing how physical effort shapes participation.</li>
+              </ul>
+            </div>
+            <div class="subcard">
+              <h4>Ratings snapshot</h4>
+              <div class="rating-grid">
+                <div class="rating"><small>Equitable Use</small><span class="badge moderate">Moderate</span></div>
+                <div class="rating"><small>Flexibility in Use</small><span class="badge strong">Strong</span></div>
+                <div class="rating"><small>Simple & Intuitive Use</small><span class="badge moderate">Moderate</span></div>
+                <div class="rating"><small>Perceptible Information</small><span class="badge strong">Strong</span></div>
+                <div class="rating"><small>Tolerance for Error</small><span class="badge strong">Strong</span></div>
+                <div class="rating"><small>Low Physical Effort</small><span class="badge moderate">Moderate</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="exhibit-panel" id="whatif">
+            <div class="subcard">
+              <h4>Summary</h4>
+              <ul class="list">
+                <li><strong>Strength:</strong> The exhibit has flexible activity potential across age groups.</li>
+                <li><strong>Barrier:</strong> Information was communicated more heavily through text, which may not support all users.</li>
+                <li><strong>Barrier:</strong> Adult support was often needed to initiate engagement, and the spatial layout felt more constrained.</li>
+                <li><strong>Why it matters:</strong> This exhibit highlights the importance of multimodal communication and accessible entry points into play.</li>
+              </ul>
+            </div>
+            <div class="subcard">
+              <h4>Ratings snapshot</h4>
+              <div class="rating-grid">
+                <div class="rating"><small>Equitable Use</small><span class="badge moderate">Moderate</span></div>
+                <div class="rating"><small>Flexibility in Use</small><span class="badge moderate">Moderate</span></div>
+                <div class="rating"><small>Simple & Intuitive Use</small><span class="badge low">Low</span></div>
+                <div class="rating"><small>Perceptible Information</small><span class="badge moderate">Moderate</span></div>
+                <div class="rating"><small>Tolerance for Error</small><span class="badge strong">Strong</span></div>
+                <div class="rating"><small>Low Physical Effort</small><span class="badge moderate">Moderate</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card section" id="themes">
+          <h3>Main themes across exhibits</h3>
+          <p class="lead">Click a theme to expand what it means for staff and managers.</p>
+          <div class="themes">
+            <div class="theme" data-title="Inconsistent access across exhibits" data-text="Access was not experienced consistently from one exhibit to another. Some spaces supported flexible entry and interaction more effectively, while others depended more heavily on height, reach, positioning, or the ability to interpret how the exhibit worked. For staff, this means participation can be shaped as much by environment as by a child’s interests.">
+              <div class="k">Theme 1</div>
+              <h4>Inconsistent access</h4>
+              <p>Participation conditions varied from exhibit to exhibit.</p>
+            </div>
+            <div class="theme" data-title="Barriers to independent engagement" data-text="Across exhibits, children were not always able to begin or continue play independently. In some cases, physical demands were the barrier. In others, entry points into play were not obvious. This does not mean caregiver involvement is bad. It means staff can ask whether adult help is occurring by design choice or because the environment requires it.">
+              <div class="k">Theme 2</div>
+              <h4>Independence shaped by design</h4>
+              <p>Caregiver help was sometimes needed because of the setup itself.</p>
+            </div>
+            <div class="theme" data-title="Limited multimodal communication supports" data-text="Children often relied on observation, trial-and-error, or caregiver explanation to figure out how to engage. That can still be a valuable part of play, but when exhibits provide only one communication route—especially text—some users are left out. Staff can look for low-cost ways to communicate through icons, examples, color, contrast, and tactile cues.">
+              <div class="k">Theme 3</div>
+              <h4>Communication matters</h4>
+              <p>Exhibits did not always show children how to get started in accessible ways.</p>
+            </div>
+            <div class="theme" data-title="Flexible design supporting engagement" data-text="A major strength across the review was the role of open-ended and flexible design. These environments allowed children to engage according to their own interests, abilities, and pace. For museum staff, this is not something to replace—it is something to protect while making entry and access clearer.">
+              <div class="k">Theme 4</div>
+              <h4>Flexibility is already a strength</h4>
+              <p>Open-ended play appears to support broader participation when paired with better access.</p>
+            </div>
+          </div>
+        </section>
+
+        
+        <section class="card section" id="staff-actions">
+          <h3>Feasible actions museum staff can take</h3>
+          <p class="lead">These are practical steps staff can use to improve access and participation without changing the open-ended nature of play.</p>
+          <div class="impact">
+            <div class="box"><h4>Add visual entry points</h4><p>Use universal symbols, simple pictures, or one example setup to show children how they might begin interacting with an exhibit.</p></div>
+            <div class="box"><h4>Rethink material placement</h4><p>Move frequently used materials into more visible and reachable locations, and consider using open or angled storage instead of low closed bins when possible.</p></div>
+            <div class="box"><h4>Reduce text-only instructions</h4><p>Pair written directions with icons, photos, color-coding, or visual prompts so more visitors can understand how to engage.</p></div>
+            <div class="box"><h4>Watch for caregiver reliance</h4><p>If children consistently need adults to reach, carry, or explain materials, that may point to a barrier in the environment rather than the child.</p></div>
+            <div class="box"><h4>Notice congestion and access</h4><p>Pay attention to where exhibits become crowded, blocked, or harder to approach during busy periods, and adjust layout or materials when realistic.</p></div>
+          </div>
+        </section>
+
+<section class="card section" id="recommendations">
+          <h3>Recommendations for staff and the museum</h3>
+          <p class="lead">These recommendations move from shorter-term opportunities to longer-term planning considerations.</p>
+          <div class="accordion">
+            <div class="acc-item open">
+              <button class="acc-btn">
+                <div><strong>Short-term: strengthen entry points into play</strong><span>Add visual cues, icons, examples, or starter setups without making play rigid.</span></div>
+                <div class="plus">+</div>
+              </button>
+              <div class="acc-body">
+                Children frequently relied on caregivers or peers to understand how to start. Staff can reduce that barrier by using pictures, symbols, pre-assembled examples, or prompts like “Try this” or “What can you do?” rather than step-by-step directions.
+              </div>
+            </div>
+
+            <div class="acc-item">
+              <button class="acc-btn">
+                <div><strong>Short-term: improve visibility and placement of materials</strong><span>Look at where components are stored, how visible they are, and whether they can be reached from different positions.</span></div>
+                <div class="plus">+</div>
+              </button>
+              <div class="acc-body">
+                In Build It, some materials were less visible and less likely to draw attention. In Gear Wall, storage location may limit access for some users. Adjustments to storage height, open display, lighting, and positioning can support more independent use.
+              </div>
+            </div>
+
+            <div class="acc-item">
+              <button class="acc-btn">
+                <div><strong>Short-term: reduce reliance on text-only communication</strong><span>Support understanding through more than one channel.</span></div>
+                <div class="plus">+</div>
+              </button>
+              <div class="acc-body">
+                When exhibit information is communicated mostly through text, some visitors may miss or not use it. Icons, color-coding, contrast, tactile markers, and short visual examples can make engagement more accessible without over-directing play.
+              </div>
+            </div>
+
+            <div class="acc-item">
+              <button class="acc-btn">
+                <div><strong>Longer-term: build UD into future exhibit planning</strong><span>Use the same questions earlier in planning and modification decisions.</span></div>
+                <div class="plus">+</div>
+              </button>
+              <div class="acc-body">
+                The biggest long-term value of this project is not just the findings from four exhibits. It is having a practical framework staff can use when updating current exhibits, planning new features, or discussing visitor usability concerns.
+              </div>
+            </div>
+
+            <div class="acc-item">
+              <button class="acc-btn">
+                <div><strong>Longer-term: expand multimodal supports museum-wide</strong><span>Consider audio, sensory, and other optional visitor supports over time.</span></div>
+                <div class="plus">+</div>
+              </button>
+              <div class="acc-body">
+                The report identifies future opportunities such as braille paired with clear contrast, audio-based supports, and sensory or social stories that help visitors prepare for the museum experience. These supports are optional layers, not replacements for open-ended play.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card section" id="impact">
+          <h3>Why this matters for staff and the museum</h3>
+          <p class="lead">This review is useful because it creates a shared operational language around participation, not just design theory.</p>
+          <div class="impact">
+            <div class="box"><h4>Shared language</h4><p>Gives staff a clearer way to talk about exhibit usability, access, and participation.</p></div>
+            <div class="box"><h4>Earlier problem-solving</h4><p>Helps identify barriers before they become larger visitor experience issues.</p></div>
+            <div class="box"><h4>Better decisions</h4><p>Supports more intentional choices about exhibit updates, layouts, and communication supports.</p></div>
+            <div class="box"><h4>Future planning</h4><p>The tool can be reused for future review, reflection, and planning conversations.</p></div>
+            <div class="box"><h4>Visitor experience</h4><p>Small changes can make play easier to enter, easier to sustain, and more independent for more families.</p></div>
+          </div>
+        </section>
+
+        <div class="footer">
+          Universal design is not about making every exhibit the same. It is about making sure more children have meaningful ways to enter, engage in, and sustain play.
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal" id="themeModal" aria-hidden="true">
+    <div class="modal-box">
+      <button class="modal-close" aria-label="Close">✕</button>
+      <h4 id="modalTitle"></h4>
+      <p id="modalText"></p>
+    </div>
+  </div>
+
+  <script>
+    const navLinks = document.querySelectorAll('.nav a');
+    const sections = [...navLinks].map(a => document.querySelector(a.getAttribute('href')));
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, {rootMargin: '-30% 0px -55% 0px', threshold: 0.1});
+
+    sections.forEach(section => section && observer.observe(section));
+
+    document.querySelectorAll('.toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.toggle').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.exhibit-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.target).classList.add('active');
+      });
+    });
+
+    document.querySelectorAll('.acc-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.acc-item');
+        item.classList.toggle('open');
+      });
+    });
+
+    const modal = document.getElementById('themeModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalText = document.getElementById('modalText');
+
+    document.querySelectorAll('.theme').forEach(theme => {
+      theme.addEventListener('click', () => {
+        modalTitle.textContent = theme.dataset.title;
+        modalText.textContent = theme.dataset.text;
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+      });
+    });
+
+    document.querySelector('.modal-close').addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if(e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape') closeModal();
+    });
+
+    function closeModal(){
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+  </script>
+</body>
+</html>
